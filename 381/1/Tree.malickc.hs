@@ -30,7 +30,7 @@ t2 = Node 6 (Node 2 (Leaf 1) (Node 4 (Leaf 3) (Leaf 5)))
 --
 --   >>> leftmost (Node 5 (Leaf 6) (Leaf 7))
 --   6
---   
+--
 --   >>> leftmost t1
 --   4
 --
@@ -49,14 +49,16 @@ leftmost (Node _ l _) = leftmost l
 --
 --   >>> rightmost (Node 5 (Leaf 6) (Leaf 7))
 --   7
---   
+--
 --   >>> rightmost t1
 --   9
 --
 --   >>> rightmost t2
 --   9
 --
-rightmost = undefined
+rightmost :: Tree -> Int
+rightmost (Leaf i) = i
+rightmost (Node _ _ r) = rightmost r
 
 
 -- | Get the maximum integer from a binary tree.
@@ -76,7 +78,11 @@ rightmost = undefined
 --   >>> maxInt t2
 --   9
 --
-maxInt = undefined
+maxInt :: Tree -> Int -> Int
+maxInt [] = 0
+maxInt (Leaf i) = i
+maxInt (Node val left right) = max(val maxInt(left) maxInt(right))
+
 
 
 -- | Get the minimum integer from a binary tree.
@@ -129,7 +135,7 @@ sumInts = undefined
 --
 --   >>> preorder t2
 --   [6,2,1,4,3,5,8,7,9]
---   
+--
 preorder = undefined
 
 
@@ -146,7 +152,7 @@ preorder = undefined
 --
 --   >>> inorder t2
 --   [1,2,3,4,5,6,7,8,9]
---   
+--
 inorder = undefined
 
 
@@ -157,13 +163,13 @@ inorder = undefined
 --
 --   >>> isBST (Node 5 (Leaf 6) (Leaf 7))
 --   False
---   
+--
 --   >>> isBST t1
 --   False
 --
 --   >>> isBST t2
 --   True
---   
+--
 isBST = undefined
 
 
@@ -181,5 +187,5 @@ isBST = undefined
 --
 --   >>> inBST 10 t2
 --   False
---   
+--
 inBST = undefined
