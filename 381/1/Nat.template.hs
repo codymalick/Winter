@@ -37,7 +37,9 @@ four = Succ three
 --   >>> pred three
 --   Succ (Succ Zero)
 --   
-pred = undefined
+pred :: Nat -> Nat
+pred (Succ n) = n
+pred Zero = Zero
 
 
 -- | True if the given value is zero.
@@ -48,7 +50,9 @@ pred = undefined
 --   >>> isZero two
 --   False
 --
-isZero = undefined
+isZero :: Nat -> Bool
+isZero (Succ _) = False
+isZero Zero = True
 
 
 -- | Convert a natural number to an integer.
@@ -59,7 +63,13 @@ isZero = undefined
 --   >>> toInt three
 --   3
 --
-toInt = undefined
+toInt :: Nat -> Int
+toInt = helpInt 0
+
+-- Recursive function to add until out of successions to call.
+helpInt :: Int -> Nat -> Int
+helpInt i (Succ n) = helpInt (i+1) n
+helpInt i Zero = i
 
 
 -- | Add two natural numbers.
@@ -76,8 +86,8 @@ toInt = undefined
 --   >>> add two three == add three two
 --   True
 --   
-add = undefined
-
+add :: Nat a=> a -> a
+add a = Succ(n)
 
 -- | Subtract the second natural number from the first. Return zero
 --   if the second number is bigger.
