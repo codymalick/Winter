@@ -122,7 +122,10 @@ sub (Succ a) (Succ b) = sub a b
 --   >>> gt two two
 --   False
 --
-gt = undefined
+gt :: Nat -> Nat -> Bool
+gt Zero b = False
+gt a Zero = True
+gt (Succ a) (Succ b) = gt a b
 
 
 -- | Multiply two natural numbers.
