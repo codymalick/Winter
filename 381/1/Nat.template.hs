@@ -86,8 +86,9 @@ helpInt i Zero = i
 --   >>> add two three == add three two
 --   True
 --   
-add :: Nat a=> a -> a
-add a = Succ(n)
+add :: Nat -> Nat -> Nat
+add a Zero = a
+add a (Succ b) = add (Succ a) b
 
 -- | Subtract the second natural number from the first. Return zero
 --   if the second number is bigger.
