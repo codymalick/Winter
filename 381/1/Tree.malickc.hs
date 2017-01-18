@@ -78,10 +78,9 @@ rightmost (Node _ _ r) = rightmost r
 --   >>> maxInt t2
 --   9
 --
-maxInt :: Tree -> Int -> Int
-maxInt [] = 0
+maxInt :: Tree -> Int
 maxInt (Leaf i) = i
-maxInt (Node val left right) = max(val maxInt(left) maxInt(right))
+maxInt (Node val left right) = max val (max (maxInt left) (maxInt right))
 
 
 
@@ -102,7 +101,9 @@ maxInt (Node val left right) = max(val maxInt(left) maxInt(right))
 --   >>> minInt t2
 --   1
 --
-minInt = undefined
+minInt :: Tree -> Int
+minInt (Leaf i) = i
+minInt (Node val left right) = min val (min (minInt left) (minInt right))
 
 
 -- | Get the sum of the integers in a binary tree.
@@ -119,7 +120,9 @@ minInt = undefined
 --   >>> sumInts (Node 10 t1 t2)
 --   100
 --
-sumInts = undefined
+sumInts :: Tree -> Int
+sumInts (Leaf i) = i
+sumInts (Node val left right) = (+) val ((+) (sumInts left) (sumInts right))
 
 
 -- | The list of integers encountered by a pre-order traversal of the tree.
@@ -136,7 +139,9 @@ sumInts = undefined
 --   >>> preorder t2
 --   [6,2,1,4,3,5,8,7,9]
 --
-preorder = undefined
+preorder :: Tree -> [Int]
+preorder (Leaf i) = [i]
+preorder (Node val left right) = [val] ++ preorder left ++ preorder right
 
 
 -- | The list of integers encountered by an in-order traversal of the tree.
@@ -153,7 +158,9 @@ preorder = undefined
 --   >>> inorder t2
 --   [1,2,3,4,5,6,7,8,9]
 --
-inorder = undefined
+inorder :: Tree -> [Int]
+inorder (Leaf i) = [i]
+inorder (Node val left right) = inorder left ++ [val] ++ inorder right
 
 
 -- | Check whether a binary tree is a binary search tree.
@@ -171,6 +178,9 @@ inorder = undefined
 --   True
 --
 isBST = undefined
+-- isBST :: Tree -> Bool
+-- isBST (Leaf i) = True
+-- isBST (Node val left right) = if (val > left && val < right)
 
 
 -- | Check whether a number is contained in a binary search tree.
