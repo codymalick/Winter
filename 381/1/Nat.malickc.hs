@@ -30,13 +30,13 @@ four = Succ three
 
 
 -- | The predecessor of a natural number.
---   
+--
 --   >>> pred Zero
 --   Zero
---   
+--
 --   >>> pred three
 --   Succ (Succ Zero)
---   
+--
 pred :: Nat -> Nat
 pred (Succ n) = n
 pred Zero = Zero
@@ -85,7 +85,7 @@ helpInt i Zero = i
 --
 --   >>> add two three == add three two
 --   True
---   
+--
 add :: Nat -> Nat -> Nat
 add a Zero = a
 add a (Succ b) = add (Succ a) b
@@ -95,7 +95,7 @@ add a (Succ b) = add (Succ a) b
 --
 --   >>> sub two one
 --   Succ Zero
---   
+--
 --   >>> sub three one
 --   Succ (Succ Zero)
 --
@@ -151,7 +151,7 @@ mult a Zero = Zero
 --
 --   >>> sum []
 --   Zero
---   
+--
 --   >>> sum [one,Zero,two]
 --   Succ (Succ (Succ Zero))
 --
@@ -171,9 +171,4 @@ sum (x:xs) = add x (sum xs)
 --   >>> toInt (sum (take 100 odds))
 --   10000
 --
-odds :: [Nat] -> [Nat]
-odds [] = odds [Zero]
-odds (x:xs) = odds (x:xs) ++ [(Succ (Succ (last xs)))]
-
-
-
+odds = one : [add x two | x <- odds]
