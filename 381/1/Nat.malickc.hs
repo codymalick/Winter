@@ -143,8 +143,10 @@ gt (Succ a) (Succ b) = gt a b
 --   9
 --
 mult :: Nat -> Nat -> Nat
-mult Zero b = Zero
-mult a Zero = Zero
+mult Zero a = Zero
+mult (Succ a) b = add b (mult a b)
+
+
 
 
 -- | Compute the sum of a list of natural numbers.
@@ -172,3 +174,4 @@ sum (x:xs) = add x (sum xs)
 --   10000
 --
 odds = one : [add x two | x <- odds]
+
