@@ -1,3 +1,4 @@
+-- Team: Cody Malick and Jacob Broderick
 module Nat where
 
 import Prelude hiding (Enum(..), sum)
@@ -174,4 +175,3 @@ sum (x:xs) = add x (sum xs)
 --   10000
 --
 odds = one : [add x two | x <- odds]
-

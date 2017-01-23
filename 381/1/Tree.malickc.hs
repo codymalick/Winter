@@ -1,3 +1,5 @@
+-- Team: Cody Malick and Jacob Broderick
+
 module Tree where
 
 
