@@ -191,10 +191,7 @@ isBST :: Tree -> Bool
 isBST (Leaf i) = True
 isBST (Node val left right) =
   -- If the binary tree structure holds for this node and all children
-  if val >= nodeValue left && val < nodeValue right
-    && isBST left && isBST right
-    then True
-    else False
+  val >= nodeValue left && val < nodeValue right && isBST left && isBST right
 
 
 -- | Check whether a number is contained in a binary search tree.
