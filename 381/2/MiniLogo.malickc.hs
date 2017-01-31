@@ -37,8 +37,17 @@ line = Define "line"
 	["x1", "y1", "x2", "y2"]
 	[Pen Up, Move (Var "x1") (Var "y1"), Pen Down, Move (Var "x2") (Var "y2")]
 --
--- nix :: Prog
--- nix = Define "nix" ["x1", "y1", "w", "h"]
--- 	[Call "line" [Var "x1", Var "y1", (Add (Var "x1") (Var "w")), (Add (Var "y1" Var "h"))
--- 	]Call "line" [Var "x1", (Add (Var "y1")(Var "h")),(Add (Var "x1")(Var "w")),
--- 	Var "y1"]]
+nix :: Cmd
+nix = Define "nix" ["x1", "y1", "w", "h"]
+	[Call "line" [Var "x1", Var "y1", (Add (Var "x1") (Var "w")), (Add (Var "y1") (Var "h"))]
+	,Call "line" [Var "x1", (Add (Var "y1")(Var "h")),(Add (Var "x1")(Var "w")),
+	Var "y1"]]
+
+steps :: Int -> Prog
+steps 0 = []
+steps count = stepHelper count ++ steps (count-1)
+
+stepHelper :: Int -> Prog
+stepHelper 0 = []
+stepHelper numSteps = [Pen Up, Move numSteps numSteps, Pen Down,
+	Move (numSteps-1) numSteps, Move (numSteps-1) (numSteps-1)]
