@@ -29,9 +29,16 @@ data Cmd = Pen Mode
   | Call Macro [Expr]
   deriving (Eq, Show)
 
+
 -- Draw a line segment from (x1, y1) (x2, y2)
 
 line :: Cmd
 line = Define "line"
-			["x1", "y1", "x2", "y2"]
-			[Pen Up, Move (Var "x1") (Var "y1"), Pen Down, Move (Var "x2") (Var "y2")]
+	["x1", "y1", "x2", "y2"]
+	[Pen Up, Move (Var "x1") (Var "y1"), Pen Down, Move (Var "x2") (Var "y2")]
+--
+-- nix :: Prog
+-- nix = Define "nix" ["x1", "y1", "w", "h"]
+-- 	[Call "line" [Var "x1", Var "y1", (Add (Var "x1") (Var "w")), (Add (Var "y1" Var "h"))
+-- 	]Call "line" [Var "x1", (Add (Var "y1")(Var "h")),(Add (Var "x1")(Var "w")),
+-- 	Var "y1"]]
