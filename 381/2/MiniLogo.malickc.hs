@@ -94,4 +94,8 @@ optE v = v
 
 optP :: Prog -> Prog
 optP [] = []
-
+optP (x:xs) = case x of
+  (Define name params program) -> [Define name params (optP program)]
+  (Move x y) -> [Move (optE x) (optE y)]
+  x -> [x]
+  ++ optP xs
