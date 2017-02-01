@@ -4,6 +4,7 @@
 module MiniLogo where
 
 import Prelude hiding(Num)
+import Data.List
 
 -- Data types: num var macro
 type Num = Int
@@ -74,18 +75,14 @@ macroHelper v = show v
 
 paramHelper :: [Expr] -> String
 paramHelper [] = ""
-paramHelper (x:xs) = show x ++ "," ++ show (paramHelper xs)
-
-paramVarHelper :: [Var] -> String
-paramVarHelper [] = ""
-paramVarHelper (x:xs) = show x ++ "," ++ show (paramVarHelper xs)
+paramHelper (x:xs) = (exprHelper x) ++ "; " ++ (paramHelper xs)
 
 pretty :: Prog -> String
 pretty [] = []
 pretty (x:xs) = case x of
   (Move x y) -> "move " ++ (exprHelper x) ++ " " ++ (exprHelper y) ++ ";"
   (Define name params program) -> "define " ++ (macroHelper name) ++ "(" ++
-    (paramVarHelper params) ++ ") { " ++ pretty program ++ "}"
+    (intercalate "," params) ++ ") { " ++ (pretty program) ++ "}"
   (Call name params) -> (macroHelper name) ++ " " ++ (paramHelper params) ++ ";"
   (Pen mode) -> "pen " ++ (modeHelper mode) ++ ";"
 
