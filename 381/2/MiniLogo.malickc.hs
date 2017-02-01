@@ -81,10 +81,10 @@ pretty :: Prog -> String
 pretty [] = []
 pretty (x:xs) = case x of
   (Pen mode) -> "\tpen " ++ (modeHelper mode) ++ ";\n"
-  (Move x y) -> "\tmove (" ++ (exprHelper x) ++ " " ++ (exprHelper y) ++ ");\n"
+  (Move x y) -> "\tmove (" ++ (exprHelper x) ++ "," ++ (exprHelper y) ++ ");\n"
   (Define name params program) -> "define " ++ (macroHelper name) ++ "(" ++
     (intercalate "," params) ++ ") {\n" ++ (pretty program) ++ "\n}\n"
-  (Call name params) -> "\t" ++ (macroHelper name) ++ " " ++ (init (paramHelper params)) ++ ";\n"
+  (Call name params) -> "\t " ++ (macroHelper name) ++ " " ++ (init (paramHelper params)) ++ ";\n"
   ++ pretty xs
 
 optE :: Expr -> Expr
