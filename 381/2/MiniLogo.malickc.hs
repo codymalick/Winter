@@ -71,26 +71,19 @@ exprHelper (Num n) = show n
 exprHelper (Add x y) = exprHelper x ++ "+" ++ exprHelper y
 
 macroHelper :: Macro -> String
-macroHelper v = show v
+macroHelper v = v
 
 paramHelper :: [Expr] -> String
 paramHelper [] = ""
-paramHelper (x:xs) = (exprHelper x) ++ "; " ++ (paramHelper xs)
+paramHelper (x:xs) = (exprHelper x) ++ "," ++ (paramHelper xs)
 
 pretty :: Prog -> String
 pretty [] = []
 pretty (x:xs) = case x of
-  (Move x y) -> "move " ++ (exprHelper x) ++ " " ++ (exprHelper y) ++ ";"
+  (Pen mode) -> "\tpen " ++ (modeHelper mode) ++ ";\n"
+  (Move x y) -> "\tmove (" ++ (exprHelper x) ++ " " ++ (exprHelper y) ++ ");\n"
   (Define name params program) -> "define " ++ (macroHelper name) ++ "(" ++
-    (intercalate "," params) ++ ") { " ++ (pretty program) ++ "}"
-  (Call name params) -> (macroHelper name) ++ " " ++ (paramHelper params) ++ ";"
-  (Pen mode) -> "pen " ++ (modeHelper mode) ++ ";"
-
-
-  -- data Cmd = Pen Mode
-  --   | Move Expr Expr
-  --   | Define Macro [Var] Prog
-  --   | Call Macro [Expr]
-  --   deriving (Eq, Show)
-
+    (intercalate "," params) ++ ") {\n" ++ (pretty program) ++ "\n}\n"
+  (Call name params) -> "\t" ++ (macroHelper name) ++ " " ++ (init (paramHelper params)) ++ ";\n"
+  ++ pretty xs
 
