@@ -63,3 +63,8 @@ macros (x:xs) = case x of
 modeHelper :: Mode -> String
 modeHelper Up = "up"
 modeHelper Down = "down"
+
+exprHelper :: Expr -> String
+exprHelper (Var v) = v
+exprHelper (Num n) = show n
+exprHelper (Add x y) = exprHelper x ++ "+" ++ exprHelper y
