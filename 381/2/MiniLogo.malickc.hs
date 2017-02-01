@@ -49,5 +49,5 @@ steps count = stepHelper count ++ steps (count-1)
 
 stepHelper :: Int -> Prog
 stepHelper 0 = []
-stepHelper numSteps = [Pen Up, Move numSteps numSteps, Pen Down,
-	Move (numSteps-1) numSteps, Move (numSteps-1) (numSteps-1)]
+stepHelper numSteps = [Pen Up, Move (Num numSteps) (Num numSteps), Pen Down,
+	Move (Num (numSteps + 1)) (Num numSteps), Move (Num (numSteps + 1)) (Num (numSteps + 1))]
