@@ -59,3 +59,7 @@ macros (x:xs) = case x of
 		(Define name _ _) -> [name]
 		_ -> []
 		++ macros xs
+
+modeHelper :: Mode -> String
+modeHelper Up = "up"
+modeHelper Down = "down"
