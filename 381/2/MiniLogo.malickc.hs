@@ -51,3 +51,11 @@ stepHelper :: Int -> Prog
 stepHelper 0 = []
 stepHelper numSteps = [Pen Up, Move (Num numSteps) (Num numSteps), Pen Down,
 	Move (Num (numSteps + 1)) (Num numSteps), Move (Num (numSteps + 1)) (Num (numSteps + 1))]
+
+
+macros :: Prog -> [Macro]
+macros [] = []
+macros (x:xs) = case x of
+		(Define name _ _) -> [name]
+		_ -> []
+		++ macros xs
