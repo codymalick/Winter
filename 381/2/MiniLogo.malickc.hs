@@ -87,3 +87,11 @@ pretty (x:xs) = case x of
   (Call name params) -> "\t" ++ (macroHelper name) ++ " " ++ (init (paramHelper params)) ++ ";\n"
   ++ pretty xs
 
+optE :: Expr -> Expr
+optE (Add (Num x) (Num y)) = Num ((x) + (y))
+optE (Add (x) (y)) = Add (optE x) (optE y)
+optE v = v
+
+optP :: Prog -> Prog
+optP [] = []
+
