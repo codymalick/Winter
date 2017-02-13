@@ -50,7 +50,9 @@ draw p = let (_,ls) = prog p start in toHTML ls
 --   ((Down,(4,5)),Just ((2,3),(4,5)))
 --
 cmd :: Cmd -> State -> (State, Maybe Line)
-cmd = undefined
+cmd (Pen t) (_, point) = ((t, point), Nothing)
+cmd (Move x y) (Down, p) = ((Down,(x,y)), Just (p,(x,y)))
+cmd (Move x y) (Up, p) = ((Up, (x,y)), Nothing)
 
 
 -- | Semantic function for Prog.
@@ -61,7 +63,12 @@ cmd = undefined
 --   >>> prog (steps 2 0 0) start
 --   ((Down,(2,2)),[((0,0),(0,1)),((0,1),(1,1)),((1,1),(1,2)),((1,2),(2,2))])
 prog :: Prog -> State -> (State, [Line])
-prog = undefined
+prog [] state = (state, [])
+prog (x:xs) state =
+	let (nextState, line) = cmd x state
+		(lastState, lines) = prog xs nextState
+	in (lastState, maybe lines (: lines) line)
+
 
 
 --
