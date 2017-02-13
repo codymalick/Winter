@@ -64,10 +64,10 @@ cmd (Move x y) (Up, p) = ((Up, (x,y)), Nothing)
 --   ((Down,(2,2)),[((0,0),(0,1)),((0,1),(1,1)),((1,1),(1,2)),((1,2),(2,2))])
 prog :: Prog -> State -> (State, [Line])
 prog [] state = (state, [])
-prog (x:xs) state =
-	let (nextState, line) = cmd x state
-		(lastState, lines) = prog xs nextState
-	in (lastState, maybe lines (: lines) line)
+prog (x:xs) state = case cmd x state of
+						(newState, Nothing) -> prog xs newState
+						(newState, Just line) -> case prog xs newState of
+													(someState, lineList) -> (someState, line : lineList)
 
 
 
