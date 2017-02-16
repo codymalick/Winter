@@ -6,11 +6,11 @@ export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 export HADOOP_CLASSPATH=$JAVA_HOME/lib/tools.jar
 
 To Compile:
-hadoop-2.7.3/bin/hadoop com.sun.tools.javac.Main WordCount.java
-jar cf wc.jar WordCount*.class
+hadoop com.sun.tools.javac.Main WordOrder.java
+jar cf wc.jar WordOrder*.class
 
 To Run:
-hadoop jar wc.jar WordCount <input> <output>
+hadoop jar wc.jar WordOrder <input> <output>
 
 
 

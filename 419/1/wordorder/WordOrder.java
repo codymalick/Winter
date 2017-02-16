@@ -27,7 +27,7 @@ public class WordOrder {
                     ) throws IOException, InterruptedException {
 
       // String tokenizer to split the input
-      StringTokenizer itr = new StringTokenizer(value.toString());
+      StringTokenizer itr = new StringTokenizer(value.toString().toLowerCase());
       while (itr.hasMoreTokens()) {
         word.set(itr.nextToken());
         context.write(word, one);
@@ -60,11 +60,12 @@ public class WordOrder {
     Configuration conf = new Configuration();
 
     // Set the job name as word count
-    Job job = Job.getInstance(conf, "word count");
-    job.setJarByClass(WordCount.class);
+    Job job = Job.getInstance(conf, "word order and count");
+    job.setJarByClass(WordOrder.class);
     job.setMapperClass(TokenizerMapper.class);
     job.setCombinerClass(IntSumReducer.class);
     job.setReducerClass(IntSumReducer.class);
+
 
     // Set the type of key value (text)
     job.setOutputKeyClass(Text.class);
