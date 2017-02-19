@@ -12,9 +12,13 @@ import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
+import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Arrays;
 // This code comes from a tutorial from the official apache hadoop site:
 // https://hadoop.apache.org/docs/stable/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html
-public class WordOrder {
+public class BeaverMart {
 
   public static class TokenizerMapper
        extends Mapper<Object, Text, Text, IntWritable>{
@@ -26,12 +30,26 @@ public class WordOrder {
     public void map(Object key, Text value, Context context
                     ) throws IOException, InterruptedException {
 
-      // String tokenizer to split the input
-      StringTokenizer itr = new StringTokenizer(value.toString().toLowerCase());
-      while (itr.hasMoreTokens()) {
-        word.set(itr.nextToken());
-        context.write(word, one);
-      }
+	// Split input into individual items
+	List<String> tokens = new ArrayList<String>(Arrays.asList(value.toString().split(",")));
+
+	// Store pairs that exist already
+	List<String> duplicates = new ArrayList<String>();
+
+	for(Iterator<String> i = tokens.iterator(); i.hasNext(); ) {
+ 		String item = i.next();
+		List<String> others = tokens;
+		for(Iterator<String> j = others.iterator(); j.hasNext(); ) {
+			String item2 = j.next();
+			if(item != item2 && !duplicates.contains(item2 + "," + item)) {
+				String val = item + "," + item2;
+				context.write(new Text(val), one);
+				duplicates.add(val);
+			}
+		}
+
+		//context.write(new Text(item), one);
+	}
     }
   }
 
@@ -61,8 +79,8 @@ public class WordOrder {
     Configuration conf = new Configuration();
 
     // Set the job name as word count
-    Job job = Job.getInstance(conf, "word order and count");
-    job.setJarByClass(WordOrder.class);
+    Job job = Job.getInstance(conf, "BeaverMart");
+    job.setJarByClass(BeaverMart.class);
     job.setMapperClass(TokenizerMapper.class);
     job.setCombinerClass(IntSumReducer.class);
     job.setReducerClass(IntSumReducer.class);
@@ -87,5 +105,9 @@ public class WordOrder {
            "REDUCE_OUTPUT_RECORDS").getValue();
 
     System.out.print("Unique Records:" + records);
+
+    
+
+
   }
 }
