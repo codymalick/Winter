@@ -1,3 +1,5 @@
+-- Cody Malick and Jacob Broderick
+-- malickc 	:	broderij
 module KarelSemantics where
 
 import Prelude hiding (Either(..))
