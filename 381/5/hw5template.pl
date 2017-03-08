@@ -50,13 +50,14 @@ parent(selma,ling).
 %%
 
 % 1. Define a predicate `child/2` that inverts the parent relationship.
-
+child(X,Y) :- parent(Y,X).
 
 % 2. Define two predicates `isMother/1` and `isFather/1`.
-
+isMother(X) :- parent(X,_), female(X).
+isFather(X) :- parent(X,_), male(X).
 
 % 3. Define a predicate `grandparent/2`.
-
+grandparent(X,Y) :- parent(Z,Y), parent(X,Z).
 
 % 4. Define a predicate `sibling/2`. Siblings share at least one parent.
 
@@ -92,5 +93,3 @@ parent(selma,ling).
 
 % 2. Define the predicate `prog/3`, which describes the effect of executing a
 %    program on the stack.
-
-
