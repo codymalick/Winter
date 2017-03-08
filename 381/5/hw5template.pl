@@ -60,14 +60,15 @@ isFather(X) :- parent(X,_), male(X).
 grandparent(X,Y) :- parent(Z,Y), parent(X,Z).
 
 % 4. Define a predicate `sibling/2`. Siblings share at least one parent.
-
+sibling(X,Y) :- parent(Z, X), parent(Z, Y)
 
 % 5. Define two predicates `brother/2` and `sister/2`.
-
+brother(X,Y) :- parent(Z, X), parent(Z, Y), male(X)
+sister(X,Y) :- parent(Z, X), parent(Z, Y), female(X)
 
 % 6. Define a predicate `siblingInLaw/2`. A sibling-in-law is either married to
 %    a sibling or the sibling of a spouse.
-
+siblingInLaw(X, Y) :- sibling(X,Z), married(Z, Y) ; sibling(Z, Y), married(X, Z)
 
 % 7. Define two predicates `aunt/2` and `uncle/2`. Your definitions of these
 %    predicates should include aunts and uncles by marriage.
