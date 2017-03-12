@@ -79,7 +79,8 @@ uncle(X,Y) :- parent(P,X), brother(P,Y), Y\=P ; parent(P,X), sibling(P,S), marri
 %cousin(X,Y) :- aunt(X,A), child(A,Y) ; uncle(X,U), child(U,Y).
 
 % 9. Define the predicate `ancestor/2`.
-
+ancestor(X, Y) :- parent(X, Y)
+ancestor(X, Y) :- parent(Z, Y), ancestor(X,Z)
 
 % Extra credit: Define the predicate `related/2`.
 
