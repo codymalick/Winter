@@ -76,14 +76,14 @@ aunt(X,Y) :- parent(P,X), sister(P,Y), Y\=P ; parent(P,X), sibling(P,S), married
 uncle(X,Y) :- parent(P,X), brother(P,Y), Y\=P ; parent(P,X), sibling(P,S), married(S,Y), male(Y).
 
 % 8. Define the predicate `cousin/2`.
-%cousin(X,Y) :- aunt(X,A), child(A,Y) ; uncle(X,U), child(U,Y).
+cousin(X,Y) :- aunt(X,A), child(Y,A) ; uncle(X,U), child(Y,U).
 
 % 9. Define the predicate `ancestor/2`.
-ancestor(X, Y) :- parent(X, Y)
-ancestor(X, Y) :- parent(Z, Y), ancestor(X,Z)
+ancestor(X,Y) :- parent(Y,X); child(Y,X); grandparent(Y,X); grandparent(X,Y).
 
 % Extra credit: Define the predicate `related/2`.
-
+%related_(X,Y) :- child(X,Y),X\=Y; cousin(X,Y),X\=Y; sibling(X,Y),X\=Y; ancestor(X,Y),X\=Y; aunt(X,Y),X\=Y; uncle(X,Y),X\=Y; married(X,Y),X\=Y.
+%related(X,Y) :- related(X,Z), related_(Z,Y).
 
 
 %%
@@ -92,7 +92,12 @@ ancestor(X, Y) :- parent(Z, Y), ancestor(X,Z)
 
 % 1. Define the predicate `cmd/3`, which describes the effect of executing a
 %    command on the stack.
+% cmd(command, stack1, stack2), command on stack1 produces stack2
+% If we're appending nothing, return the list
+cmd([],Y,Y).
 
+% I'm not really sure why this works
+cmd([X|XTail],Y,[X|ZTail]) :- cmd(XTail,Y,ZTail).
 
 % 2. Define the predicate `prog/3`, which describes the effect of executing a
 %    program on the stack.
