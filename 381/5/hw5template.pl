@@ -94,10 +94,6 @@ ancestor(X,Y) :- parent(Y,X); child(Y,X); grandparent(Y,X); grandparent(X,Y).
 %    command on the stack.
 % cmd(command, stack1, stack2), command on stack1 produces stack2
 % If we're appending nothing, return the list
-cmd([],Y,Y).
-
-% I'm not really sure why this works
-cmd([X|XTail],Y,[X|ZTail]) :- cmd(XTail,Y,ZTail).
 
 % 2. Define the predicate `prog/3`, which describes the effect of executing a
 %    program on the stack.
