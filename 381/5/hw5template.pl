@@ -79,11 +79,11 @@ uncle(X,Y) :- parent(P,X), brother(P,Y), Y\=P ; parent(P,X), sibling(P,S), marri
 cousin(X,Y) :- aunt(X,A), child(Y,A) ; uncle(X,U), child(Y,U).
 
 % 9. Define the predicate `ancestor/2`.
-ancestor(X,Y) :- parent(Y,X); child(Y,X); grandparent(Y,X); grandparent(X,Y).
+ancestor(X, Y) :- parent(X, Y).
+ancestor(X, Y) :- parent(X, Z), ancestor(Z,Y).
 
 % Extra credit: Define the predicate `related/2`.
-%related_(X,Y) :- child(X,Y),X\=Y; cousin(X,Y),X\=Y; sibling(X,Y),X\=Y; ancestor(X,Y),X\=Y; aunt(X,Y),X\=Y; uncle(X,Y),X\=Y; married(X,Y),X\=Y.
-%related(X,Y) :- related(X,Z), related_(Z,Y).
+related(X,Y) :- ancestor(X,Y); ancestor(Y,X); aunt(X,Y); aunt(Y,X); uncle(X,Y); uncle(Y,X); cousin(X,Y); siblingInLaw(X,Y); sibling(X,Y).
 
 
 %%
@@ -97,3 +97,23 @@ ancestor(X,Y) :- parent(Y,X); child(Y,X); grandparent(Y,X); grandparent(X,Y).
 
 % 2. Define the predicate `prog/3`, which describes the effect of executing a
 %    program on the stack.
+bool(t).
+bool(f).
+
+literal(X) :- number(X).
+literal(X) :- string(X).
+literal(X) :- bool(X).
+
+% `cmd/3`: the predicate cmd(C,S1,S2) means that executing command C with stack S1 produces stack S2.
+cmd(E,S1,S2) :- literal(E), S2 = [E|S1]. %base case
+cmd(add,[E1,E2|S1],S2) :- Res is E1 + E2, S2 = [Res|S1].
+cmd(lte,[E1,E2|S1],S2) :- (E1 =< E2 ->Y=t;Y=f), S2 = [Y|S1].
+cmd(if(Then,_), [t|S1], S2) :- prog(Then, S1, S2).
+cmd(if(_,Else), [f|S1], S2) :- prog(Else, S1, S2).
+
+is_lte(X, Y, t) :- X =< Y.
+is_lte(X, Y, f) :- X > Y.
+
+% `prog/3`: prog(P,S1,S2) means that executing program P with stack S1 produces stack S2.
+prog([], S, S).
+prog([C|CS], S1, S2) :- cmd(C, S1, S_), prog(CS, S_, S2).
