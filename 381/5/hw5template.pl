@@ -72,11 +72,11 @@ siblingInLaw(X, Y) :- sibling(X,Z), married(Z,Y) ; sibling(Z,Y), married(X,Z).
 
 % 7. Define two predicates `aunt/2` and `uncle/2`. Your definitions of  these
 %    predicates should include aunts and uncles by marriage.
-aunt(X,Y) :- parent(P,X), sister(P,Y), Y\=P ; parent(P,X), sibling(P,S), married(S,Y), female(Y).
-uncle(X,Y) :- parent(P,X), brother(P,Y), Y\=P ; parent(P,X), sibling(P,S), married(S,Y), male(Y).
+aunt(Y,X) :- parent(P,X), sister(P,Y), Y\=P ; parent(P,X), sibling(P,S), married(S,Y), female(Y).
+uncle(Y,X) :- parent(P,X), brother(P,Y), Y\=P ; parent(P,X), sibling(P,S), married(S,Y), male(Y).
 
 % 8. Define the predicate `cousin/2`.
-cousin(X,Y) :- aunt(X,A), child(Y,A) ; uncle(X,U), child(Y,U).
+cousin(X,Y) :- aunt(A,X), child(Y,A) ; uncle(U,X), child(Y,U).
 
 % 9. Define the predicate `ancestor/2`.
 ancestor(X, Y) :- parent(X, Y).
